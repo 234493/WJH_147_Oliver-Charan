@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt # single use of plt is commented out
 import os.path  
 import PIL.ImageDraw         
 
-def frame(original_image, color, frame_width):
+def frame(original_image, color, frame_width, logo_size):
     """ Put a frame around a PIL.Image
     
     original_image must be a PIL.Image
@@ -32,6 +32,13 @@ def frame(original_image, color, frame_width):
     # Make the new image, starting with all transparent
     result = original_image.copy()
     result.paste(frame_mask, (0,0), mask=frame_mask)
+    
+    logo = PIL.Image.open('/Users/232150/Desktop/CSP/Github/WJH_147_Oliver-Charan/WJH_147_Oliver-Charan/OrangePro.png')#Locates the logo using the directory that is provided
+    #logo_size = .3 #set the logo size
+    position = int(logo_size * min(width, height))
+    
+    rlogo = logo.resize((position, position))
+    result.paste(rlogo, (thickness,thickness), rlogo)
     return result
     
 def get_images(directory=None):
@@ -103,7 +110,7 @@ def paste_logo(original_image, logo_size, logo):
         After that, it will paste the logo and will return the result of the picture
         with the logo on it.
     """
-    logo = PIL.Image.open('/Users/232150/Desktop/Python/1.4.5 Images/OrangePro.png')#Locates the logo using the directory that is provided
+    logo = PIL.Image.open('/Users/232150/Desktop/CSP/Github/WJH_147_Oliver-Charan/WJH_147_Oliver-Charan/OrangePro.png')#Locates the logo using the directory that is provided
     logo_size = .3 #set the logo size
     width, height = original_image.size
     position = int(logo_size * min(width, height))
@@ -115,7 +122,7 @@ def paste_logo(original_image, logo_size, logo):
     return result
 
 
-def paste_logo_for_all_images(directory=None):
+def paste_logo_for_all_images(directory=None, color =(255,0,0), frame_width=.05, logo_size=.2):
     """ Saves a modfied version of each image in directory.
     
     It will use the current directory if no directory is specified. 
@@ -131,14 +138,14 @@ def paste_logo_for_all_images(directory=None):
         directory = os.getcwd() # Use working directory if unspecified
         
     # Create a new directory 'modified'
-    new_directory = os.path.join(directory, 'modified')
+    new_directory = os.path.join(directory, 'modified-logoAndFrame')
     try:
         os.mkdir(new_directory)
     except OSError:
         pass # if the directory already exists, proceed  
     
     image_list, file_list = get_images(directory) #loads all the images
-    logo = PIL.Image.open('/Users/232150/Desktop/Python/1.4.5 Images/OrangePro.png') 
+    logo = PIL.Image.open('/Users/232150/Desktop/CSP/Github/WJH_147_Oliver-Charan/WJH_147_Oliver-Charan/OrangePro.png') 
     #Locates the logo using the directory that is provided
     logo_size = .3 #set the logo size
     #goes through the images and save modified versions
@@ -146,7 +153,7 @@ def paste_logo_for_all_images(directory=None):
         # Parse the filename
         filename, filetype = os.path.splitext(file_list[n])
         
-        new_image = paste_logo(image_list[n], logo_size, logo)
+        new_image = frame(image_list[n], color, frame_width, logo_size )
         #Used the arguments from the paste_logo to do it all of the images at once in the list
         new_image_filename = os.path.join(new_directory, filename + '.png')
         new_image.save(new_image_filename)
