@@ -67,7 +67,7 @@ def get_images(directory=None):
             pass # do nothing with errors tying to open non-images
     return image_list, file_list
 
-def frame_all_images(directory=None, color=(255,0,0), frame_width=0.10):
+def frame_all_images(directory=None, color=(255,215,0), frame_width=0.10):
     """ Saves a modfied version of each image in directory.
     
     Uses current directory if no directory is specified. 
@@ -122,7 +122,7 @@ def paste_logo(original_image, logo_size, logo):
     return result
 
 
-def paste_logo_for_all_images(directory=None, color =(255,0,0), frame_width=.05, logo_size=.2):
+def paste_logoborder_for_all_images(directory=None, color =(255,215,0), frame_width=.05, logo_size=.2):
     """ Saves a modfied version of each image in directory.
     
     It will use the current directory if no directory is specified. 
