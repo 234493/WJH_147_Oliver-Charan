@@ -3,7 +3,6 @@ import matplotlib.pyplot as plt # single use of plt is commented out
 import os.path  
 import PIL.ImageDraw  
 
-
 def paste_logo(original_image, logo_size, logo):
     """ Returns a picture that the logo is pasted on
     
